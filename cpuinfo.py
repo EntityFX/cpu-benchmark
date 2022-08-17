@@ -370,7 +370,7 @@ def _read_windows_registry_key(key_name, field_name):
 def _check_arch():
 	arch, bits = _parse_arch(DataSource.arch_string_raw)
 	if not arch in ['X86_32', 'X86_64', 'ARM_7', 'ARM_8',
-	               'PPC_64', 'S390X', 'MIPS_32', 'MIPS_64']:
+	               'PPC_64', 'S390X', 'MIPS_32', 'MIPS_64', 'E2K']:
 		raise Exception("py-cpuinfo currently only works on X86 "
 		                "and some ARM/PPC/S390X/MIPS CPUs.")
 
@@ -827,7 +827,10 @@ def _parse_arch(arch_string_raw):
 	elif arch_string_raw == 'mips64':
 		arch = 'MIPS_64'
 		bits = 64
-
+	# E2K
+	elif re.match(r'^e2k$', arch_string_raw):
+		arch = 'E2K'
+		bits = 64
 	return (arch, bits)
 
 def _is_bit_set(reg, bit):
